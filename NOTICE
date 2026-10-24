@@ -1,0 +1,40 @@
+Licensing of this repository
+============================
+
+Two licences apply, by kind of content. A licence header inside a file
+(SPDX-License-Identifier) takes precedence over this table.
+
+CC0 1.0 Universal (public domain dedication) -- full text in LICENSE-CC0
+  - drafts/*/TAP-draft-*.md                 TAP draft texts (mirrors; as TAP-01 requires)
+  - drafts/*/assets/vectors.json            test vectors
+  - drafts/policy-circuit-gate/assets/policies/*.tapnet
+                                            example policy circuits (data)
+  - drafts/agent-passport/assets/IERC8004PassportSubset.sol
+                                            carries an SPDX CC0-1.0 header
+
+MIT -- full text in LICENSE
+  - All code: Python under drafts/*/assets/ and scripts/.
+  - Documentation that is not a TAP text (README.md, README.zh.md, ROADMAP.md,
+    ROADMAP.zh.md, CONTRIBUTING.md, docs/, drafts/*/README.md,
+    drafts/*/assets/README.md) is also offered under MIT; you may additionally
+    treat it as CC0.
+
+Mirrored content
+  - Everything under drafts/<name>/ except drafts/<name>/README.md is a
+    byte-identical copy of an open pull request in TapeOutProtocol/TAPs at the
+    head named in drafts/<name>/README.md. The pull request is authoritative.
+
+Third-party and copied code
+  - drafts/policy-circuit-gate/assets/tap02_reference.py -- the TAP-02 reference
+    implementation from TapeOutProtocol/TAPs (https://github.com/TapeOutProtocol/TAPs,
+    assets/tap-02/reference.py, commit fca5034fa5287a6565a94951193b923bcb443585);
+    written by Alda (@ronesync); Copyright (c) 2026 TapeOutProtocol; MIT. Copied by way
+    of the netlist-bound NFT draft's assets; it differs from the original only in the
+    Python version stated in its docstring. Used as an independent TAP-02 evaluator.
+  - drafts/policy-circuit-gate/assets/tapnft.py, credits.py, canon.py and
+    drafts/agent-passport/assets/keccak.py -- copied unchanged (keccak.py: with a header
+    added) from the same author's other TAP drafts; origins and SHA-256 digests are listed
+    in the README.md of the folder that holds them.
+
+Nothing in this repository is deployed or audited. The software and data are provided
+"as is", without warranty of any kind.
