@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drafts:
+    name: Vectors and tests (${{ matrix.suite.name }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          # Each suite runs from its own assets folder, as the pull request's README says.
+          # test_passport.py imports its sibling modules through the script directory.
+          - { name: agent-passport,      dir: drafts/agent-passport/assets,      pip: "",                     cmd: "python make_vectors.py --check && python test_passport.py" }
+          # eth-account enables the optional EIP-712 cross-check of test_policy_gate.py.
+          - { name: policy-circuit-gate, dir: drafts/policy-circuit-gate/assets, pip: "eth-account==0.13.7",  cmd: "python make_vectors.py --check && python test_policy_gate.py && cd / && python -I \"$GITHUB_WORKSPACE/drafts/policy-circuit-gate/assets/make_vectors.py\" --check" }
+          - { name: circuit-jobs,        dir: drafts/circuit-jobs/assets,        pip: "",                     cmd: "python make_vectors.py --check && python test_circuit_jobs.py" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install optional cross-check dependencies
+        if: matrix.suite.pip != ''
+        run: python -m pip install ${{ matrix.suite.pip }}
+      - name: Run suite
+        working-directory: ${{ matrix.suite.dir }}
+        run: ${{ matrix.suite.cmd }}
+      - name: Generated files must match the committed ones
+        run: git diff --exit-code
